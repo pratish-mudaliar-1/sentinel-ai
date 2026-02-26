@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENTINEL CORE | COMMAND CENTER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="master.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="master-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">S</div>
+                <span class="logo-text">SENTINEL<span>CORE</span></span>
+            </div>
+
+            <ul class="nav-links">
+                <li class="nav-item active" data-view="dashboard">
+                    <span class="icon">📊</span> Overview
+                </li>
+                <li class="nav-item" data-view="fraud">
+                    <span class="icon">🛡️</span> Fraud Analysis
+                </li>
+                <li class="nav-item" data-view="kafka">
+                    <span class="icon">🔄</span> Kafka Pipeline
+                </li>
+                <li class="nav-item" data-view="geo">
+                    <span class="icon">🌍</span> Geo Analytics
+                </li>
+                <li class="nav-item" data-view="quantum">
+                    <span class="icon">⚛️</span> Quantum Firewall
+                </li>
+                <li class="nav-item" data-view="agent">
+                    <span class="icon">🧠</span> AI Agent
+                </li>
+            </ul>
+
+            <div class="sidebar-status">
+                <div class="status-indicator online"></div>
+                <span>SYSTEM ONLINE</span>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="master-header">
+                <div class="header-info">
+                    <h2 id="view-title">Sentinel AI Command</h2>
+                    <p id="view-subtitle">Real-Time Verified Global Ledger & Autonomous AI Intelligence</p>
+                </div>
+                <div class="header-controls">
+                    <div class="user-info" id="user-info"
+                        style="margin-right: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: #888; font-size: 0.8rem;">User:</span>
+                        <span id="user-name" style="color: #00d4ff; font-weight: 600;">Loading...</span>
+                    </div>
+                    <button id="system-toggle" onclick="toggleBackend()" style="
+                        display: none;
+                        padding: 0.5rem 1rem;
+                        background: rgba(255, 0, 60, 0.2);
+                        border: 1px solid #ff003c;
+                        color: #ff003c;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-size: 0.75rem;
+                        font-weight: 600;
+                        margin-right: 1rem;
+                        transition: all 0.3s;
+                    ">
+                        ⏸ PAUSE BACKEND
+                    </button>
+                    <div class="timer" id="clock">00:00:00</div>
+                </div>
+            </header>
+
+            <div class="content-viewport">
+                <!-- Overview Dashboard (Visible by default) -->
+                <div id="view-dashboard" class="view active">
+                    <div class="overview-stats-row">
+                        <div class="stat-group-card">
+                            <div class="group-header">
+                                <span class="group-icon">📡</span>
+                                <span class="group-title">PIPELINE THROUGHPUT</span>
+                            </div>
+                            <div class="summary-cards">
+                                <div class="summary-card">
+                                    <div class="card-glow" style="background: var(--accent)"></div>
+                                    <div class="card-label">Raw Transactions</div>
+                                    <div class="card-value" id="sum-raw">0</div>
+                                    <div class="card-meta">STREAMING LIVE</div>
+                                </div>
+                                <div class="summary-card accent">
+                                    <div class="card-glow" style="background: #00ff9d"></div>
+                                    <div class="card-label">Processed Data</div>
+                                    <div class="card-value" id="sum-processed">0</div>
+                                    <div class="card-meta">AI VERIFIED</div>
+                                </div>
+                                <div class="summary-card danger">
+                                    <div class="card-glow" style="background: var(--danger)"></div>
+                                    <div class="card-label">Threats Detected</div>
+                                    <div class="card-value" id="sum-fraud">0</div>
+                                    <div class="card-meta">NEUTRALIZED</div>
+                                </div>
+                                <div class="summary-card magic">
+                                    <div class="card-glow" style="background: #ff00ff"></div>
+                                    <div class="card-label">Corrected Datas</div>
+                                    <div class="card-value" id="sum-correction">0</div>
+                                    <div class="card-meta">AUTO-LEARNED</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="card-panel topology-panel">
+                            <div class="panel-header">
+                                <span>NETWORK TOPOLOGY</span>
+                                <div class="health-indicator">
+                                    <span class="health-label">SYSTEM HEALTH</span>
+                                    <div class="health-bar">
+                                        <div class="health-fill" style="width: 98%"></div>
+                                    </div>
+                                    <span class="health-value">98.2%</span>
+                                </div>
+                            </div>
+                            <div class="topology-container">
+                                <div class="topology-viz">
+                                    <div class="node-item producer" title="Bitcoin Mainnet">
+                                        <div class="node-icon">📤</div>
+                                        <span>BLOCKCHAIN</span>
+                                        <div class="node-status-dot online"></div>
+                                    </div>
+                                    <div class="edge-line pulse-1"></div>
+                                    <div class="node-item kafka" title="Kafka Broker">
+                                        <div class="node-icon">🔄</div>
+                                        <span>KAFKA</span>
+                                        <div class="node-status-dot online"></div>
+                                    </div>
+                                    <div class="edge-line pulse-2"></div>
+                                    <div class="node-item agent" title="Fraud Detection Agent">
+                                        <div class="node-icon">🧠</div>
+                                        <span>AI AGENT</span>
+                                        <div class="node-status-dot online"></div>
+                                    </div>
+                                    <div class="edge-line pulse-3"></div>
+                                    <div class="node-item ledger" title="Immutable Ledger">
+                                        <div class="node-icon">🔗</div>
+                                        <span>LEDGER</span>
+                                        <div class="node-status-dot online"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="topology-details">
+                                <div class="detail-item">
+                                    <span class="label">Latency</span>
+                                    <span class="value">1.2ms</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Nodes</span>
+                                    <span class="value">4 Active</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Security</span>
+                                    <span class="value">Quantum+</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-panel performance-panel">
+                            <div class="panel-header">
+                                <span>LIVE THROUGHPUT ANALYSIS</span>
+                                <div class="live-tag">REAL-TIME</div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="overviewChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Export Row -->
+                    <div class="dashboard-mid-row" style="margin-top: 20px;">
+                        <div class="card-panel export-panel"
+                            style="background: rgba(0, 20, 30, 0.4); border: 1px solid rgba(0, 212, 255, 0.2);">
+                            <div class="panel-header" style="border-bottom: 1px solid rgba(0, 212, 255, 0.1);">
+                                <span style="color: #00d4ff; font-weight: 600; font-size: 0.8rem;">📥 QUICK EXPORT
+                                    CENTER</span>
+                                <div class="ai-mode-badge"
+                                    style="font-size: 0.6rem; padding: 2px 8px; background: rgba(0, 255, 157, 0.1); color: #00ff9d; border: 1px solid #00ff9d;">
+                                    REPORTS READY</div>
+                            </div>
+                            <div class="export-grid-main"
+                                style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 15px;">
+                                <!-- Fraud Export Card -->
+                                <div class="export-card-mini"
+                                    style="background: rgba(255, 0, 60, 0.05); border: 1px solid rgba(255, 0, 60, 0.2); border-radius: 12px; padding: 15px; display: flex; align-items: center; justify-content: space-between;">
+                                    <div class="export-info">
+                                        <h4 style="color: #ff003c; margin: 0; font-size: 0.9rem;">FRAUD TRANSACTIONS
+                                        </h4>
+                                        <p style="color: #888; font-size: 0.7rem; margin: 5px 0 0 0;">Download full
+                                            audit of detected threats</p>
+                                    </div>
+                                    <div class="export-actions" style="display: flex; gap: 10px;">
+                                        <a href="/api/export/fraud/pdf" class="btn-premium pdf"
+                                            style="text-decoration: none; display: flex; align-items: center; justify-content: center;">PDF</a>
+                                        <a href="/api/export/fraud/excel" class="btn-premium excel"
+                                            style="text-decoration: none; display: flex; align-items: center; justify-content: center;">EXCEL</a>
+                                    </div>
+                                </div>
+                                <!-- Correction Export Card -->
+                                <div class="export-card-mini"
+                                    style="background: rgba(255, 0, 255, 0.05); border: 1px solid rgba(255, 0, 255, 0.2); border-radius: 12px; padding: 15px; display: flex; align-items: center; justify-content: space-between;">
+                                    <div class="export-info">
+                                        <h4 style="color: #ff00ff; margin: 0; font-size: 0.9rem;">SELF-CORRECTIONS</h4>
+                                        <p style="color: #888; font-size: 0.7rem; margin: 5px 0 0 0;">Report on AI model
+                                            refinements</p>
+                                    </div>
+                                    <div class="export-actions" style="display: flex; gap: 10px;">
+                                        <a href="/api/export/corrected/pdf" class="btn-premium pdf-magic"
+                                            style="text-decoration: none; display: flex; align-items: center; justify-content: center;">PDF</a>
+                                        <a href="/api/export/corrected/excel" class="btn-premium excel"
+                                            style="text-decoration: none; display: flex; align-items: center; justify-content: center;">EXCEL</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-bottom-row">
+                        <div class="card-panel log-panel">
+                            <div class="panel-header">SYSTEM EVENT LOG</div>
+                            <div class="log-container" id="system-log">
+                                <div class="log-entry">
+                                    <span class="log-time">21:55:01</span>
+                                    <span class="log-tag tag-info">SYSTEM</span>
+                                    <span class="log-message">Sentinel Core Initialized. All subsystems green.</span>
+                                </div>
+                                <div class="log-entry">
+                                    <span class="log-time">21:55:04</span>
+                                    <span class="log-tag tag-kafka">KAFKA</span>
+                                    <span class="log-message">Producer stream established on topic
+                                        'raw_transactions'.</span>
+                                </div>
+                                <div class="log-entry">
+                                    <span class="log-time">21:55:10</span>
+                                    <span class="log-tag tag-ai">AI</span>
+                                    <span class="log-message">Neural weights calibrated. Self-correction protocol
+                                        active.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Webview Containers -->
+                <div id="view-fraud" class="view iframe-container">
+                    <iframe id="iframe-fraud" src="/fraud-monitor"></iframe>
+                </div>
+                <div id="view-kafka" class="view iframe-container">
+                    <iframe id="iframe-kafka" src="/kafka-monitor"></iframe>
+                </div>
+                <div id="view-geo" class="view iframe-container">
+                    <iframe id="iframe-geo" src="/geo-monitor"></iframe>
+                </div>
+                <div id="view-quantum" class="view iframe-container">
+                    <iframe id="iframe-quantum" src="/quantum-firewall"></iframe>
+                </div>
+                <div id="view-agent" class="view iframe-container">
+                    <iframe id="iframe-agent" src="/agent-monitor"></iframe>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="master.js"></script>
+</body>
+
+</html>

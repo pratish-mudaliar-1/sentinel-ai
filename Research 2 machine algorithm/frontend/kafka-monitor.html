@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Data Flow Monitor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="kafka-monitor.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="background-grid"></div>
+    <div class="scan-line"></div>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon kafka-logo">K</div>
+            <h1>KAFKA<span class="highlight">FLOW</span> <span class="subtitle">DATA PIPELINE MONITOR</span></h1>
+        </div>
+        <div class="status-panel">
+            <div class="status-box">
+                <span class="label">RAW DATA</span>
+                <span class="value" id="hdr-raw">0</span>
+            </div>
+            <div class="status-box">
+                <span class="label">PROCESSED</span>
+                <span class="value" id="hdr-processed">0</span>
+            </div>
+            <div class="status-box">
+                <span class="label">THREATS</span>
+                <span class="value" id="hdr-fraud" style="color: #ff003c">0</span>
+            </div>
+            <div class="status-box">
+                <span class="label">CORRECTED</span>
+                <span class="value" id="hdr-correction" style="color: #ff00ff">0</span>
+            </div>
+        </div>
+        <a href="/" class="nav-link">← Back to Dashboard</a>
+    </header>
+
+    <main class="kafka-monitor">
+        <!-- Pipeline Visualization -->
+        <section class="panel pipeline-panel">
+            <div class="panel-header">
+                <h3><span class="icon">🔄</span> DATA FLOW PIPELINE</h3>
+                <div class="live-indicator">LIVE</div>
+            </div>
+
+            <div class="pipeline-container">
+                <!-- Producer -->
+                <div class="pipeline-node producer-node">
+                    <div class="node-icon">📤</div>
+                    <div class="node-label">PRODUCER</div>
+                    <div class="node-sublabel">Transaction Generator</div>
+                </div>
+
+                <div class="pipeline-arrow">
+                    <div class="arrow-line">
+                        <div class="flow-particle" id="flow-1"></div>
+                    </div>
+                    <span class="arrow-label">Simulated TX</span>
+                </div>
+
+                <!-- Topic 1: Raw Transactions -->
+                <div class="pipeline-node topic-node" data-topic="raw_transactions">
+                    <div class="node-icon">📨</div>
+                    <div class="node-label">raw_transactions</div>
+                    <div class="node-stats">
+                        <span id="raw-count">0</span> msgs
+                        <span class="rate" id="raw-rate">0/s</span>
+                    </div>
+                </div>
+
+                <div class="pipeline-arrow">
+                    <div class="arrow-line">
+                        <div class="flow-particle" id="flow-2"></div>
+                    </div>
+                    <span class="arrow-label">agent-group</span>
+                </div>
+
+                <!-- Consumer: Agent Processing -->
+                <div class="pipeline-node consumer-node">
+                    <div class="node-icon">🤖</div>
+                    <div class="node-label">AGENT</div>
+                    <div class="node-sublabel">Fraud Detection</div>
+                </div>
+
+                <div class="pipeline-arrow">
+                    <div class="arrow-line">
+                        <div class="flow-particle" id="flow-3"></div>
+                    </div>
+                    <span class="arrow-label">Analyzed TX</span>
+                </div>
+
+                <!-- Topic 2: Processed Transactions -->
+                <div class="pipeline-node topic-node" data-topic="processed_transactions">
+                    <div class="node-icon">✅</div>
+                    <div class="node-label">processed_transactions</div>
+                    <div class="node-stats">
+                        <span id="processed-count">0</span> msgs
+                        <span class="rate" id="processed-rate">0/s</span>
+                    </div>
+                </div>
+
+                <div class="pipeline-split">
+                    <!-- Path 1: To UI -->
+                    <div class="split-path">
+                        <div class="pipeline-arrow">
+                            <div class="arrow-line">
+                                <div class="flow-particle" id="flow-4"></div>
+                            </div>
+                            <span class="arrow-label">ui-group</span>
+                        </div>
+                        <div class="pipeline-node consumer-node">
+                            <div class="node-icon">🖥️</div>
+                            <div class="node-label">UI BROADCAST</div>
+                            <div class="node-sublabel">WebSocket</div>
+                        </div>
+                    </div>
+
+                    <!-- Path 2: To Self-Correction -->
+                    <div class="split-path">
+                        <div class="pipeline-arrow">
+                            <div class="arrow-line">
+                                <div class="flow-particle" id="flow-5"></div>
+                            </div>
+                            <span class="arrow-label">Verification</span>
+                        </div>
+                        <div class="pipeline-node topic-node" data-topic="self_correction">
+                            <div class="node-icon">🔄</div>
+                            <div class="node-label">self_correction</div>
+                            <div class="node-stats">
+                                <span id="correction-count">0</span> msgs
+                                <span class="rate" id="correction-rate">0/s</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-arrow small">
+                            <div class="arrow-line">
+                                <div class="flow-particle" id="flow-6"></div>
+                            </div>
+                        </div>
+                        <div class="pipeline-node consumer-node small">
+                            <div class="node-icon">🧠</div>
+                            <div class="node-label">LEARNING</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Topic Metrics -->
+        <section class="panel metrics-panel">
+            <div class="panel-header">
+                <h3><span class="icon">📊</span> TOPIC METRICS</h3>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h4>raw_transactions</h4>
+                    <div class="metric-value" id="raw-total">0</div>
+                    <div class="metric-label">Total Messages</div>
+                    <div class="mini-chart-container">
+                        <canvas id="rawChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <h4>processed_transactions</h4>
+                    <div class="metric-value" id="processed-total">0</div>
+                    <div class="metric-label">Total Messages</div>
+                    <div class="mini-chart-container">
+                        <canvas id="processedChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <h4>self_correction</h4>
+                    <div class="metric-value" id="correction-total">0</div>
+                    <div class="metric-label">Total Messages</div>
+                    <div class="mini-chart-container">
+                        <canvas id="correctionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Consumer Groups -->
+        <section class="panel consumers-panel">
+            <div class="panel-header">
+                <h3><span class="icon">👥</span> CONSUMER GROUPS</h3>
+            </div>
+
+            <div class="consumer-grid">
+                <div class="consumer-card">
+                    <div class="consumer-header">
+                        <span class="consumer-name">agent-group</span>
+                        <span class="status-badge active">ACTIVE</span>
+                    </div>
+                    <div class="consumer-info">
+                        <span class="info-label">Topic:</span>
+                        <span class="info-value">raw_transactions</span>
+                    </div>
+                    <div class="consumer-info">
+                        <span class="info-label">Purpose:</span>
+                        <span class="info-value">Fraud Detection Processing</span>
+                    </div>
+                </div>
+
+                <div class="consumer-card">
+                    <div class="consumer-header">
+                        <span class="consumer-name">ui-group</span>
+                        <span class="status-badge active">ACTIVE</span>
+                    </div>
+                    <div class="consumer-info">
+                        <span class="info-label">Topic:</span>
+                        <span class="info-value">processed_transactions</span>
+                    </div>
+                    <div class="consumer-info">
+                        <span class="info-label">Purpose:</span>
+                        <span class="info-value">UI Broadcasting</span>
+                    </div>
+                </div>
+
+                <div class="consumer-card">
+                    <div class="consumer-header">
+                        <span class="consumer-name">correction-group</span>
+                        <span class="status-badge active">ACTIVE</span>
+                    </div>
+                    <div class="consumer-info">
+                        <span class="info-label">Topic:</span>
+                        <span class="info-value">self_correction</span>
+                    </div>
+                    <div class="consumer-info">
+                        <span class="info-label">Purpose:</span>
+                        <span class="info-value">Autonomous Learning</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Throughput Graph -->
+        <section class="panel throughput-panel">
+            <div class="panel-header">
+                <h3><span class="icon">📈</span> THROUGHPUT ANALYSIS</h3>
+            </div>
+            <div class="chart-container">
+                <canvas id="throughputChart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        if (window.self !== window.top) {
+            document.body.classList.add('is-iframed');
+        }
+    </script>
+    <script src="kafka-monitor.js"></script>
+</body>
+
+</html>

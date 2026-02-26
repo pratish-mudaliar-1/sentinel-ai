@@ -1,0 +1,57 @@
+1. Core Concept & Function
+Sentinel Core is an Autonomous, Self-Correcting AI system designed for real-time monitoring of the Global Bitcoin Network. It detects financial fraud, laundering (Mixers), and cyber-attacks (Dust attacks) using an "Agentic" approach—meaning the AI doesn't just predict; it observes, learns from its own mistakes, and adapts its brain in real-time.
+
+2. Backend Architecture (The Brain)
+The backend is built using Python and FastAPI, designed for high-concurrency event-driven processing.
+
+Key Components & Functions:
+AI Agent (
+agent.py
+):
+Algorithm: Uses Isolation Forest (Unsupervised ML). It detects anomalies by isolating outliers in a multi-dimensional space.
+Recursive Self-Correction: The most advanced feature. If the AI makes an error (e.g., misses a "Dust Attack"), it automatically shifts its Manifold Bias (sensitivity) and re-trains on the fly.
+Ensemble Scoring: Combines Machine Learning with statistical Z-Score analysis to detect sudden volume spikes or "Whale" movements.
+Real-Time Leger Sync (
+main.py
+):
+Connects via WebSockets to the actual Bitcoin Mainnet (Mempool).
+Every transaction you see is a "live" event happening globally on the blockchain.
+Apache Kafka Integration (
+kafka_integration.py
+):
+The Nexus: Acts as the central nervous system.
+Scalability: Decouples data ingestion (Blockchain) from processing (AI) and visualization (UI). This ensures the system never loses data even if traffic spikes.
+Topics: Segregates data into Raw, Processed, and Correction channels.
+3. Frontend Architecture (The Vision)
+The frontend is a multi-dashboard suite designed with a "Cyberpunk" aesthetic to provide high-fidelity visual telemetry.
+
+Key Components & Functions:
+Vanilla Tech Stack: Created using Pure JavaScript (ES6+), CSS3, and HTML5.
+Why? To demonstrate maximum performance and zero dependency bloat. It allows for ultra-responsive real-time updates without the overhead of React or Vue.
+Chart.js: Used for rendering live "Threat Spikes" and "Manifold Bias" graphs.
+The Three Dashboard Suite:
+Main Sentinel UI (
+index.html
+): The operational command center. Displays live global tickers, current threat levels, and real-time transaction logs.
+Fraud Intelligence Hub (
+fraud.html
+): Visualizes the AI’s Internal Thinking. It shows the "Manifold Bias" line—a graph that moves up and down as the AI becomes more or less "strict" based on the data it sees.
+Kafka Pipeline Monitor (
+kafka-monitor.html
+): An animated schematic of the data flow. It visualizes how "Raw" data transforms into "Intelligence" as it passes through the Kafka topics.
+4. The "Winning" Technical Unique Selling Points (USPs)
+If a judge or audience asks what makes this special, here are the 4 points:
+
+Zero-Human Learning: The system doesn't need a human to label data. It uses Heuristic Ground Truth (pre-defined rules about "Dust" and "Mixers") to check its own ML predictions and correct itself.
+Global Live Data: This isn't a simulation. It's connected to wss://ws.blockchain.info, processing real Bitcoin hashes and amounts.
+Infrastructure Excellence: By using Apache Kafka, the project mimics how top-tier fintech companies (like PayPal or Stripe) handle millions of events per second.
+Performance Visualization: Most AI projects are "Black Boxes." Sentinel Core visualizes the Internal Decision Boundary through the Manifold Bias graph, making the AI's logic transparent.
+5. Tech Stack Summary for Slides
+Layer	Technology	Role
+Language		Python 3.10+		Core Backend Logic
+Web Server		FastAPI (ASGI)		Async WebSocket Handling
+Machine Learning	Scikit-Learn		Isolation Forest / Outlier Detection
+Data Pipeline		Apache Kafka		Event Streaming & Buffering
+Real-time Feed		Blockchain.info 	API	Live Global Transaction Source
+Visuals	Vanilla 	JS / CSS3		High-Performance Cyberpunk UI
+Analytics		Chart.js		Dynamic Data Visualization

@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+websockets
+pydantic
+numpy
+pandas
+scikit-learn
+kafka-python-ng

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENTINEL | ACCESS CONTROL</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030305;
+            --panel: rgba(10, 10, 15, 0.95);
+            --cyan: #00f2ff;
+            --red: #ff003c;
+            --text: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-image:
+                linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .login-container {
+            width: 400px;
+            padding: 40px;
+            background: var(--panel);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.1);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--cyan), transparent, var(--cyan));
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--cyan);
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--cyan);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 242, 255, 0.1);
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .login-btn:hover {
+            background: var(--cyan);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        }
+
+        .error-msg {
+            color: var(--red);
+            font-size: 0.9rem;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--cyan);
+            animation: scan 3s linear infinite;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0%;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.5;
+            }
+
+            90% {
+                opacity: 0.5;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="scan-line"></div>
+        <h1>Sentinel Access</h1>
+        <form id="loginForm">
+            <div class="input-group">
+                <label>USER ID</label>
+                <input type="text" id="username" placeholder="ENTER ID" required autofocus>
+            </div>
+            <div class="input-group">
+                <label>PASSCODE</label>
+                <input type="password" id="password" placeholder="••••••" required>
+            </div>
+            <button type="submit" class="login-btn" id="loginBtn">Authenticate</button>
+            <div class="error-msg" id="errorMsg">ACCESS DENIED: INVALID CREDENTIALS</div>
+            <div style="margin-top: 20px; text-align: center;">
+                <a href="/static/Sentinel_Access_Credentials.pdf" target="_blank"
+                    style="color: var(--cyan); font-size: 0.7rem; text-decoration: none; opacity: 0.6; letter-spacing: 1px;">//
+                    FORGOT CREDENTIALS? [ACCESS HELP]</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const err = document.getElementById('errorMsg');
+
+        // Check if already logged in
+        window.addEventListener('load', () => {
+            const token = localStorage.getItem('sentinel_token');
+            if (token && token !== 'demo_active_session') {
+                // Optionally verify token validity here, but for now just redirect
+                // window.location.href = '/dashboard';
+            }
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+
+            // UI Loading State
+            loginBtn.innerText = 'AUTHENTICATING...';
+            loginBtn.classList.add('loading');
+            loginBtn.disabled = true;
+            err.style.display = 'none';
+
+            try {
+                // Use the matching payload based on the backend (main.py uses 'username', main_simulated uses 'user_id')
+                // We'll normalize both backends to use 'username' or handle both.
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: u,
+                        user_id: u, // Support both formats during transition
+                        password: p
+                    })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    // 1. Store session info in LocalStorage
+                    localStorage.setItem('sentinel_user', JSON.stringify(data.user));
+                    localStorage.setItem('sentinel_token', data.token);
+
+                    // 2. Set Cookie (CRITICAL for backend RedirectResponse)
+                    document.cookie = `sentinel_token=${data.token}; path=/; max-age=86400; SameSite=Strict`;
+
+                    // 3. Success Feedback
+                    loginBtn.innerText = 'ACCESS GRANTED';
+                    loginBtn.style.background = '#00ff9d';
+                    loginBtn.style.color = '#000';
+                    loginBtn.style.boxShadow = '0 0 30px #00ff9d';
+
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 800);
+                } else {
+                    // 4. Failure Feedback
+                    loginBtn.innerText = 'AUTHENTICATE';
+                    loginBtn.disabled = false;
+                    err.textContent = (data.detail || 'ACCESS DENIED: INVALID CREDENTIALS').toUpperCase();
+                    err.style.display = 'block';
+
+                    // Shake animation
+                    loginForm.style.animation = 'shake 0.5s linear';
+                    setTimeout(() => loginForm.style.animation = '', 500);
+
+                    // Clear password for security
+                    document.getElementById('password').value = '';
+                }
+            } catch (error) {
+                console.error(error);
+                loginBtn.innerText = 'AUTHENTICATE';
+                loginBtn.disabled = false;
+                err.textContent = 'SYSTEM ERROR: CONNECTION FAILED';
+                err.style.display = 'block';
+            }
+        });
+    </script>
+    <style>
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            50% {
+                transform: translateX(10px);
+            }
+
+            75% {
+                transform: translateX(-10px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .login-btn.loading {
+            opacity: 0.7;
+            cursor: wait;
+        }
+    </style>
+</body>
+
+</html>

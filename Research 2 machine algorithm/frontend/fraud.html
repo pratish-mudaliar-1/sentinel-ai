@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum-Secure Fraud Detection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="background-grid"></div>
+    <div class="scan-line"></div>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon shield"></div>
+            <h1>SENTINEL<span class="highlight">CORE</span> <span class="subtitle">QUANTUM DEFENSE GRID</span></h1>
+        </div>
+        <div class="status-panel">
+            <div class="status-box">
+                <span class="label">THREAT LEVEL</span>
+                <span class="value blink-slow">ELEVATED</span>
+            </div>
+            <div class="status-box">
+                <span class="label">ACTIVE NODES</span>
+                <span class="value">4,096</span>
+            </div>
+            <div class="status-box">
+                <span class="label">QUANTUM ENCRYPTION</span>
+                <span class="value text-success">LOCKED</span>
+            </div>
+        </div>
+        <a href="/kafka-monitor" class="nav-link"
+            style="color: #00f2ff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #00f2ff; border-radius: 4px; transition: all 0.3s;">📊
+            Kafka Monitor</a>
+    </header>
+
+    <main class="command-center">
+        <!-- Live Feed Section -->
+        <section class="panel feed-panel">
+            <div class="panel-header">
+                <h3><span class="icon">⚡</span> NETFLOW INTERCEPT</h3>
+                <div class="live-indicator">LIVE</div>
+            </div>
+
+            <div class="transaction-header">
+                <span class="col-time">TIMESTAMP</span>
+                <span class="col-ip">LEDGER HASH</span>
+                <span class="col-user">SOURCE</span>
+                <span class="col-origin">ORIGIN</span>
+                <span class="col-amt">VALUE (USD)</span>
+                <span class="col-status">DEFENSE ACTION</span>
+            </div>
+            <div id="transaction-feed" class="scroll-container terminal-font">
+                <!-- Global blockchain transactions injected here -->
+            </div>
+        </section>
+
+        <!-- Stats & Analytics -->
+        <section class="panel sidebar-panel">
+            <div class="panel-header">
+                <h3><span class="icon">👁‍🗨</span> THREAT INTEL</h3>
+            </div>
+
+            <div class="intel-grid">
+                <div class="intel-card">
+                    <h4>RAW DATA</h4>
+                    <p id="raw-count-val" class="digital-nums">0000</p>
+                </div>
+                <div class="intel-card accent">
+                    <h4>PROCESSED</h4>
+                    <p id="processed-count-val" class="digital-nums">0000</p>
+                </div>
+                <div class="intel-card danger">
+                    <h4>THREATS</h4>
+                    <p id="fraud-count-val" class="digital-nums">0000</p>
+                </div>
+                <div class="intel-card correction">
+                    <h4>CORRECTED</h4>
+                    <p id="corrected-count-val" class="digital-nums">0000</p>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <canvas id="fraudChart"></canvas>
+            </div>
+
+            <!-- AI Core: Self-Correcting Neural Layer -->
+            <div class="panel ai-core-panel active-glow">
+                <div class="panel-header">
+                    <h3><span class="icon">🧠</span> AI AUTONOMOUS CORE</h3>
+                    <div class="ai-mode-badge" id="ai-status">SELF-OPTIMIZING</div>
+                </div>
+
+                <div class="ai-cycle-visualizer">
+                    <div class="cycle-step" id="step-observe">
+                        <div class="step-icon">👁</div>
+                        <span>OBSERVE</span>
+                    </div>
+                    <div class="cycle-arrow">➔</div>
+                    <div class="cycle-step" id="step-decide">
+                        <div class="step-icon">⚙</div>
+                        <span>DECIDE</span>
+                    </div>
+                    <div class="cycle-arrow">➔</div>
+                    <div class="cycle-step" id="step-act">
+                        <div class="step-icon">⚡</div>
+                        <span>ACT</span>
+                    </div>
+                    <div class="cycle-arrow">➔</div>
+                    <div class="cycle-step pulse-glow" id="step-learn">
+                        <div class="step-icon">✨</div>
+                        <span>LEARN</span>
+                    </div>
+                </div>
+
+                <div class="ai-metrics">
+                    <div class="metric-box">
+                        <span class="label">NEURAL SENSITIVITY</span>
+                        <span class="value" id="ai-bias">0.50</span>
+                        <div class="mini-gauge">
+                            <div class="gauge-fill" id="bias-fill" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="metric-box">
+                        <span class="label">LEARNING VELOCITY</span>
+                        <span class="value" id="ai-error">0.00</span>
+                        <div class="mini-gauge">
+                            <div class="gauge-fill warning" id="error-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="manifold-visualizer">
+                    <div class="visualizer-overlay">SENSITIVITY MANIFOLD TRACKING</div>
+                    <canvas id="manifoldChart"></canvas>
+                </div>
+
+                <div class="ai-log-container">
+                    <h4>STDP: SELF-CORRECTION PROTOCOLS [REAL-TIME]</h4>
+                    <div class="ai-terminal" id="ai-correction-log">
+                        <span class="cursor">> INITIALIZING NEURAL RECURSION...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Downloads Panel -->
+            <div class="panel export-panel active-glow" style="margin-top: 1.5rem;">
+                <div class="panel-header">
+                    <h3><span class="icon">📥</span> EXPORT REPORTS</h3>
+                    <div class="ai-mode-badge" style="background: linear-gradient(135deg, #00ff9d, #00d4ff);">DOWNLOAD
+                    </div>
+                </div>
+
+                <div class="export-grid"
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1rem;">
+                    <!-- Fraud Transactions Export -->
+                    <div class="export-section"
+                        style="background: rgba(255, 0, 60, 0.08); padding: 1rem; border-radius: 12px; border: 1px solid rgba(255, 0, 60, 0.3);">
+                        <h4 style="color: #ff003c; font-size: 0.9rem; margin-bottom: 0.8rem; font-weight: 600;">🛡 FRAUD
+                            TRANSACTIONS</h4>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <a href="/api/export/fraud/pdf" class="export-btn pdf-btn"
+                                style="flex: 1; padding: 0.6rem; background: linear-gradient(135deg, #ff003c, #c9004a); border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.3rem; text-decoration: none;">
+                                📄 PDF
+                            </a>
+                            <a href="/api/export/fraud/excel" class="export-btn excel-btn"
+                                style="flex: 1; padding: 0.6rem; background: linear-gradient(135deg, #00a651, #008040); border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.3rem; text-decoration: none;">
+                                📊 EXCEL
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Corrected Transactions Export -->
+                    <div class="export-section"
+                        style="background: rgba(255, 0, 255, 0.08); padding: 1rem; border-radius: 12px; border: 1px solid rgba(255, 0, 255, 0.3);">
+                        <h4 style="color: #ff00ff; font-size: 0.9rem; margin-bottom: 0.8rem; font-weight: 600;">🔄
+                            CORRECTED TRANSACTIONS</h4>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <a href="/api/export/corrected/pdf" class="export-btn pdf-btn"
+                                style="flex: 1; padding: 0.6rem; background: linear-gradient(135deg, #ff00ff, #c900c9); border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.3rem; text-decoration: none;">
+                                📄 PDF
+                            </a>
+                            <a href="/api/export/corrected/excel" class="export-btn excel-btn"
+                                style="flex: 1; padding: 0.6rem; background: linear-gradient(135deg, #00a651, #008040); border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.3rem; text-decoration: none;">
+                                📊 EXCEL
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="export-info" style="padding: 0 1rem 1rem 1rem; text-align: center;">
+                    <p style="font-size: 0.7rem; color: #888; margin: 0;">Reports include real-time transaction data
+                        with quantum-safe hash verification</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- New: Self-Correction Detail Panel -->
+        <section class="panel correction-hub">
+            <div class="panel-header">
+                <h3><span class="icon">🔄</span> SELF-CORRECTION HUB</h3>
+                <div class="auth-tag">AGENTIC-v2.0</div>
+            </div>
+            <div class="hub-content">
+                <div class="hub-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Corrected Decisions</span>
+                        <span class="stat-value" id="corrected-count">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Model Accuracy (Live)</span>
+                        <span class="stat-value" id="live-accuracy">98.2%</span>
+                    </div>
+                </div>
+                <div class="correction-workflow">
+                    <div class="workflow-box" id="flow-outcome">
+                        <h5>Feedback Discovery</h5>
+                        <p>Monitoring outcome drifts...</p>
+                    </div>
+                    <div class="workflow-box" id="flow-refine">
+                        <h5>Dynamic Refinement</h5>
+                        <p>Recalibrating bias points...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quantum Ledger -->
+        <section class="panel ledger-panel">
+            <div class="panel-header">
+                <h3><span class="icon">🔗</span> IMMUTABLE AUDIT TRAIL (SHA-256)</h3>
+            </div>
+            <div class="ledger-chain" id="ledger-chain">
+                <!-- Hash blocks injected here -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        if (window.self !== window.top) {
+            document.body.classList.add('is-iframed');
+        }
+    </script>
+    <script src="app.js"></script>
+</body>
+
+</html>
